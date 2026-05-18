@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/npm/l/nuxt-swiper?style=flat-square)](/LICENSE)
 
 > [!IMPORTANT]
-> ***Nuxt Swiper*** utilizes Swiper.js as its foundation using its web components. Please ensure that you read the Swiper.js [documentation](https://swiperjs.com/element) before utilizing this module and reporting any issues that are not directly related to Nuxt Swiper. If there is an underlying bug, please submit an issue to the Swiper.js [repository](https://github.com/nolimits4web/swiper/issues).
+> **_Nuxt Swiper_** utilizes Swiper.js as its foundation using its web components. Please ensure that you read the Swiper.js [documentation](https://swiperjs.com/element) before utilizing this module and reporting any issues that are not directly related to Nuxt Swiper. If there is an underlying bug, please submit an issue to the Swiper.js [repository](https://github.com/nolimits4web/swiper/issues).
 
 > [!NOTE]
 > If you want to learn how to use web components in **Vue.js** please refer to the docs here: [Vue.js Web Components](https://vuejs.org/guide/extras/web-components.html)
@@ -36,12 +36,12 @@ npx nuxi@latest module add swiper
 
 | Swiper Components (WebComponent) |
 | -------------------------------- |
-| `<swiper-container/>`     |
-| `<swiper-slide />`        |
+| `<swiper-container/>`            |
+| `<swiper-slide />`               |
 
 ### Module Options
 
-```ts
+````ts
 interface ModuleOptions {
   /**
    * Enable custom Swiper composables to help you access Swiper instance.
@@ -72,7 +72,7 @@ interface ModuleOptions {
    */
   bundled?: boolean
 }
-```
+````
 
 ### Basic Usage
 
@@ -105,13 +105,9 @@ onMounted(() => {
   </ClientOnly>
 
   <!-- Go back one slide -->
-  <button @click="swiper.prev()">
-    Prev
-  </button>
+  <button @click="swiper.prev()">Prev</button>
   <!-- Go forward one slide -->
-  <button @click="swiper.next()">
-    Next
-  </button>
+  <button @click="swiper.next()">Next</button>
 </template>
 
 <style lang="css">

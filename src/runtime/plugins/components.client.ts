@@ -8,11 +8,11 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     if (!isBundle) {
       // Register individual custom elements
-      (await import('swiper/element')).register()
+      ;(await import('swiper/element')).register()
       return
     }
 
     // Register custom elements bundle
-    (await import('swiper/element/bundle')).register()
+    ;(await import('swiper/element/bundle')).register()
   })
 })

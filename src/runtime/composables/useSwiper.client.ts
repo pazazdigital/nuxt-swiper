@@ -4,42 +4,42 @@ import type { Ref } from 'vue'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 
 /**
- * A Vue composable that provides a reactive interface to the Swiper slider instance.
- * This utility function allows you to directly access and control the Swiper instance
- * and provides reactive state properties for common Swiper values.
- *
- * @param swiperContainerRef - Ref to the `<swiper-container>` element that will be controlled.
- * @param options - Optional Swiper configuration parameters to merge with the default options.
- *                  These options will be applied if the Swiper instance is not yet created.
- *                  See Swiper documentation for all available options: https://swiperjs.com/swiper-api
- *
- * @returns An object containing:
- *  - `instance`: Ref to the Swiper instance
- *  - Reactive state properties: `isBeginning`, `isEnd`, `activeIndex`, `realIndex`, etc.
- *  - Navigation methods: `next()`, `prev()`, `to()`, `reset()`
+ * A Vue composable that provides a reactive interface to the Swiper slider instance. This utility
+ * function allows you to directly access and control the Swiper instance and provides reactive
+ * state properties for common Swiper values.
  *
  * @example
- * ```vue
- * <script setup>
- * import { ref } from 'vue'
+ *   ;```vue
+ *   <script setup>
+ *   import { ref } from 'vue'
  *
- * const swiperRef = ref(null)
- * const { next, prev, isBeginning, isEnd } = useSwiper(swiperRef, {
+ *   const swiperRef = ref(null)
+ *   const { next, prev, isBeginning, isEnd } = useSwiper(swiperRef, {
  *   slidesPerView: 1,
  *   spaceBetween: 10,
- * })
- * </script>
+ *   })
+ *   </script>
  *
- * <template>
+ *   <template>
  *   <swiper-container ref="swiperRef">
- *     <swiper-slide>Slide 1</swiper-slide>
- *     <swiper-slide>Slide 2</swiper-slide>
+ *   <swiper-slide>Slide 1</swiper-slide>
+ *   <swiper-slide>Slide 2</swiper-slide>
  *   </swiper-container>
  *
  *   <button @click="next" :disabled="isEnd">Next</button>
  *   <button @click="prev" :disabled="isBeginning">Previous</button>
- * </template>
- * ```
+ *   </template>
+ *   ```
+ *
+ * @param swiperContainerRef - Ref to the `<swiper-container>` element that will be controlled.
+ * @param options - Optional Swiper configuration parameters to merge with the default options.
+ *   These options will be applied if the Swiper instance is not yet created. See Swiper
+ *   documentation for all available options: https://swiperjs.com/swiper-api
+ * @returns An object containing:
+ *
+ *   - `instance`: Ref to the Swiper instance
+ *   - Reactive state properties: `isBeginning`, `isEnd`, `activeIndex`, `realIndex`, etc.
+ *   - Navigation methods: `next()`, `prev()`, `to()`, `reset()`
  */
 export function useSwiper(
   swiperContainerRef: Ref<SwiperContainer | null>,
@@ -57,66 +57,43 @@ export function useSwiper(
   const progress = computed(() => swiper.value?.progress ?? 0)
   const getNumberOfSlides = computed(() => swiper.value?.slides.length ?? 0)
 
-  /**
-   * Run transition to next slide.
-   */
-  const next = (
-    ...params: Parameters<SwiperContainer['swiper']['slideNext']>
-  ) => {
-    if (!swiper.value)
-      return
+  /** Run transition to next slide. */
+  const next = (...params: Parameters<SwiperContainer['swiper']['slideNext']>) => {
+    if (!swiper.value) return
 
-    if (params.length === 0)
-      swiper.value.slideNext()
+    if (params.length === 0) swiper.value.slideNext()
     else swiper.value.slideNext(...params)
   }
 
   /**
-   * Run transition to the slide with index number equal to 'index' parameter for the
-   * duration equal to 'speed' parameter.
+   * Run transition to the slide with index number equal to 'index' parameter for the duration equal
+   * to 'speed' parameter.
    */
   const to = (...params: Parameters<SwiperContainer['swiper']['slideTo']>) => {
-    if (!swiper.value)
-      return
+    if (!swiper.value) return
 
     swiper.value.slideTo(...params)
   }
 
-  /**
-   * Reset swiper position to currently active slide for the duration equal to 'speed'
-   * parameter.
-   */
-  const reset = (
-    ...params: Parameters<SwiperContainer['swiper']['slideReset']>
-  ) => {
-    if (!swiper.value)
-      return
+  /** Reset swiper position to currently active slide for the duration equal to 'speed' parameter. */
+  const reset = (...params: Parameters<SwiperContainer['swiper']['slideReset']>) => {
+    if (!swiper.value) return
 
-    if (params.length === 0)
-      swiper.value.slideReset()
+    if (params.length === 0) swiper.value.slideReset()
     else swiper.value.slideReset(...params)
   }
 
-  /**
-   * Run transition to previous slide.
-   */
-  const prev = (
-    ...params: Parameters<SwiperContainer['swiper']['slidePrev']>
-  ) => {
-    if (!swiper.value)
-      return
+  /** Run transition to previous slide. */
+  const prev = (...params: Parameters<SwiperContainer['swiper']['slidePrev']>) => {
+    if (!swiper.value) return
 
-    if (params.length === 0)
-      swiper.value.slidePrev()
+    if (params.length === 0) swiper.value.slidePrev()
     else swiper.value.slidePrev(...params)
   }
 
-  /**
-   * Check if the swiper ref is valid.
-   */
+  /** Check if the swiper ref is valid. */
   const checkSwiperRef = () => {
-    const isSwiperContainer
-      = swiperContainerRef.value?.nodeName === 'SWIPER-CONTAINER'
+    const isSwiperContainer = swiperContainerRef.value?.nodeName === 'SWIPER-CONTAINER'
 
     if (!isSwiperContainer && swiper.value !== null && !options) {
       console.warn(
@@ -135,6 +112,10 @@ export function useSwiper(
     swiper.value = swiperContainerRef?.value?.swiper
   }
 
+  const reInitialize = () => {
+    _initialize()
+  }
+
   watch(swiper, () => checkSwiperRef())
   onMounted(() => nextTick(() => _initialize()))
 
@@ -151,6 +132,9 @@ export function useSwiper(
     slidesPerView,
     progress,
     getNumberOfSlides,
+
+    // Methods
+    reInitialize,
 
     // Navigation methods
     next,

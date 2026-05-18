@@ -2,6 +2,10 @@ packages:
   - playground
   - test/fixtures/*
   - '!examples/swiper-basic'
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  unrs-resolver: true
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild

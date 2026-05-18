@@ -1,9 +1,5 @@
-import {
-  addImportsDir,
-  addPlugin,
-  createResolver,
-  defineNuxtModule,
-} from '@nuxt/kit'
+import { addImportsDir, addPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
+
 import { name, version } from '../package.json'
 
 declare module '@nuxt/schema' {
@@ -18,29 +14,32 @@ declare module '@nuxt/schema' {
 export interface ModuleOptions {
   /**
    * Enable custom Swiper composables to help you access Swiper instance.
-   * @example ```vue
-   * <script setup>
-   * const swiperRef = ref<null>(null)
-   * const swiper = useSwiper(swiperRef, { loop: true, autoplay: { delay: 5000 })
    *
-   * const next = () => swiper.next()
-   * </script>
-   * <template>
-   *  <swiper-container ref="swiperRef" :init="false">
-   *    <swiper-slide>Slide 1</swiper-slide>
-   *    <swiper-slide>Slide 2</swiper-slide>
-   *  </swiper-container>
-   * </template>
-   * ```
+   * @example
+   *   ;```vue
+   *   <script setup>
+   *   const swiperRef = ref<null>(null)
+   *   const swiper = useSwiper(swiperRef, { loop: true, autoplay: { delay: 5000 })
+   *
+   *   const next = () => swiper.next()
+   *   </script>
+   *   <template>
+   *   <swiper-container ref="swiperRef" :init="false">
+   *   <swiper-slide>Slide 1</swiper-slide>
+   *   <swiper-slide>Slide 2</swiper-slide>
+   *   </swiper-container>
+   *   </template>
+   *   ```
+   *
    * @default true
    */
   enableComposables?: boolean
 
   /**
-   * Bundle Swiper custom elements.
-   * if disabled, you need to import swiper css and modules manually.
-   * @see https://swiperjs.com/element#core-version--modules
+   * Bundle Swiper custom elements. if disabled, you need to import swiper css and modules manually.
+   *
    * @default true
+   * @see https://swiperjs.com/element#core-version--modules
    */
   bundled?: boolean
 }
@@ -71,12 +70,19 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.vue.compilerOptions.isCustomElement = (tag: string) =>
       tag.startsWith('swiper-') || isCustomElement?.(tag) || false
 
+    // Pre-bundle swiper element entry to avoid Vite dep discovery / page reload
+    nuxt.options.vite ||= {}
+    nuxt.options.vite.optimizeDeps ||= {}
+    nuxt.options.vite.optimizeDeps.include ||= []
+    nuxt.options.vite.optimizeDeps.include.push(
+      opts.bundled ? 'swiper/element/bundle' : 'swiper/element',
+    )
+
     if (nuxt.options.vue.runtimeCompiler)
       addPlugin(resolver.resolve('./runtime/plugins/custom-elements'))
 
     // Register Swiper Composables if enabled
-    if (opts.enableComposables)
-      addImportsDir(resolver.resolve('./runtime/composables'))
+    if (opts.enableComposables) addImportsDir(resolver.resolve('./runtime/composables'))
 
     // Register Web Components & Types
     addPlugin(resolver.resolve('./runtime/plugins/components.client'))

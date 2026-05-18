@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useAppConfig, useSwiper } from '#imports'
 import { ref } from 'vue'
+
+import { useAppConfig, useSwiper } from '#imports'
 
 const appConfig = useAppConfig()
 
@@ -10,8 +11,7 @@ const slides = ref(
     const g = Math.floor(Math.random() * 256)
     const b = Math.floor(Math.random() * 256)
 
-    const contrast
-      = r * 0.299 + g * 0.587 + b * 0.114 > 186 ? 'black' : 'white'
+    const contrast = r * 0.299 + g * 0.587 + b * 0.114 > 186 ? 'black' : 'white'
 
     return {
       id: idx + 1,
@@ -26,8 +26,8 @@ const swiperCreativeRef = ref(null)
 const swiper1 = useSwiper(swiperBasicRef)
 
 /**
- * Pass in options to the useSwiper hook to customize the swiper instance
- * then automatically bind the swiper instance to the ref
+ * Pass in options to the useSwiper hook to customize the swiper instance then automatically bind
+ * the swiper instance to the ref
  */
 useSwiper(swiperCreativeRef, {
   effect: 'creative',
@@ -74,7 +74,9 @@ useSwiper(swiperCreativeRef, {
       <div class="swiper-wrapper__inner">
         <ClientOnly>
           <swiper-container
-            class="swiper-basic" :loop="true" :pagination="{
+            class="swiper-basic"
+            :loop="true"
+            :pagination="{
               clickable: true,
             }"
           >
@@ -96,17 +98,9 @@ useSwiper(swiperCreativeRef, {
 
       <div class="swiper-wrapper__inner">
         <ClientOnly>
-          <swiper-container
-            ref="swiperBasicRef"
-            class="swiper-basic"
-            :loop="true"
-          >
-            <div slot="container-start">
-              Slot component before wrapper
-            </div>
-            <div slot="container-end">
-              Slot component after wrapper
-            </div>
+          <swiper-container ref="swiperBasicRef" class="swiper-basic" :loop="true">
+            <div slot="container-start">Slot component before wrapper</div>
+            <div slot="container-end">Slot component after wrapper</div>
             <swiper-slide
               v-for="slide in slides"
               :key="`slide-basic-${slide.id}`"
@@ -118,12 +112,8 @@ useSwiper(swiperCreativeRef, {
           </swiper-container>
 
           <div class="swiper-basic-buttons">
-            <button @click="swiper1.prev()">
-              Prev
-            </button>
-            <button @click="swiper1.next()">
-              Next
-            </button>
+            <button @click="swiper1.prev()">Prev</button>
+            <button @click="swiper1.next()">Next</button>
           </div>
         </ClientOnly>
       </div>
@@ -202,7 +192,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 #__nuxt {
@@ -231,7 +221,7 @@ swiper-slide {
   height: 20vh;
   font-size: 4rem;
   font-weight: bold;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .swiper-wrapper {
@@ -286,7 +276,7 @@ swiper-slide {
 }
 
 swiper-container::part(bullet) {
-  background-color: #FFF;
+  background-color: #fff;
   height: 2px;
   width: 0.625rem;
   opacity: 1;
