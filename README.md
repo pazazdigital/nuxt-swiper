@@ -215,4 +215,4 @@ Also, if you like my work, please feel free to [buy me a coffee](https://www.buy
 
 ---
 
-[MIT](./LICENSE) License © 2025 [CP](https://github.com/cpreston321)
+[MIT](./LICENSE) License © 2026 [CP](https://github.com/cpreston321)
